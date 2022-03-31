@@ -10,6 +10,14 @@ void validateArguments(int argc)
     }
 }
 
+class Wrong_Argument_Exception
+    : public std::logic_error
+{
+public:  
+    Wrong_Argument_Exception() 
+    : std::logic_error("Passed d. d is prohibited."){};
+};
+
 class Resource
 {
 public:
@@ -18,7 +26,7 @@ public:
         std::cout << "Using resource. Passed " << *arg << std::endl;
         if (*arg == 'd')
         {
-            throw std::logic_error("Passed d. d is prohibited.");
+            throw Wrong_Argument_Exception();
         }
     }
 };
@@ -38,6 +46,7 @@ int main(int argc, char* argv[])
     }
     catch (std::logic_error& e)
     {
+        delete rsc;
         std::cout << e.what() << std::endl;
     }
     return 0;
